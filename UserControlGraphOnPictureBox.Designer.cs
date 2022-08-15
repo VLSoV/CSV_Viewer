@@ -1,6 +1,6 @@
 ﻿namespace Test_IBA_AG
 {
-    partial class UserControlGraph
+    partial class UserControlGraphOnPictureBox
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -28,16 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox_Display_options = new System.Windows.Forms.GroupBox();
+            this.checkBoxCross = new System.Windows.Forms.CheckBox();
             this.checkBoxLegend = new System.Windows.Forms.CheckBox();
             this.checkBoxAxes = new System.Windows.Forms.CheckBox();
             this.checkBoxGrid = new System.Windows.Forms.CheckBox();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox_Display_options.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,7 +45,7 @@
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.chart1);
+            this.groupBox4.Controls.Add(this.pictureBox1);
             this.groupBox4.Controls.Add(this.groupBox_Display_options);
             this.groupBox4.Location = new System.Drawing.Point(0, -1);
             this.groupBox4.Name = "groupBox4";
@@ -55,52 +54,56 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Graphs";
             // 
-            // chart1
+            // pictureBox1
             // 
-            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.AxisX.IsMarginVisible = false;
-            chartArea1.AxisX.MajorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.None;
-            chartArea1.AxisY.MajorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.None;
-            chartArea1.BackColor = System.Drawing.Color.White;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Cursor = System.Windows.Forms.Cursors.Default;
-            legend1.DockedToChartArea = "ChartArea1";
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            legend1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            legend1.ForeColor = System.Drawing.Color.Blue;
-            legend1.IsTextAutoFit = false;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(6, 14);
-            this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(703, 400);
-            this.chart1.TabIndex = 1;
-            this.chart1.Text = "chart1";
-            this.chart1.CustomizeLegend += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.CustomizeLegendEventArgs>(this.chart1_CustomizeLegend);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(706, 401);
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.pictureBox1.MouseEnter += new System.EventHandler(this.pictureBox1_MouseEnter);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.Resize += new System.EventHandler(this.pictureBox1_Resize);
             // 
             // groupBox_Display_options
             // 
             this.groupBox_Display_options.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox_Display_options.Controls.Add(this.checkBoxCross);
             this.groupBox_Display_options.Controls.Add(this.checkBoxLegend);
             this.groupBox_Display_options.Controls.Add(this.checkBoxAxes);
             this.groupBox_Display_options.Controls.Add(this.checkBoxGrid);
             this.groupBox_Display_options.Location = new System.Drawing.Point(6, 420);
             this.groupBox_Display_options.Name = "groupBox_Display_options";
-            this.groupBox_Display_options.Size = new System.Drawing.Size(709, 40);
+            this.groupBox_Display_options.Size = new System.Drawing.Size(703, 40);
             this.groupBox_Display_options.TabIndex = 0;
             this.groupBox_Display_options.TabStop = false;
             this.groupBox_Display_options.Text = "Display options";
+            // 
+            // checkBoxCross
+            // 
+            this.checkBoxCross.AutoSize = true;
+            this.checkBoxCross.Checked = true;
+            this.checkBoxCross.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxCross.Location = new System.Drawing.Point(300, 17);
+            this.checkBoxCross.Name = "checkBoxCross";
+            this.checkBoxCross.Size = new System.Drawing.Size(84, 17);
+            this.checkBoxCross.TabIndex = 3;
+            this.checkBoxCross.Text = "Cursor cross";
+            this.checkBoxCross.UseVisualStyleBackColor = true;
+            this.checkBoxCross.CheckedChanged += new System.EventHandler(this.checkBoxCross_CheckedChanged);
             // 
             // checkBoxLegend
             // 
             this.checkBoxLegend.AutoSize = true;
             this.checkBoxLegend.Checked = true;
             this.checkBoxLegend.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxLegend.Location = new System.Drawing.Point(207, 17);
+            this.checkBoxLegend.Location = new System.Drawing.Point(205, 17);
             this.checkBoxLegend.Name = "checkBoxLegend";
             this.checkBoxLegend.Size = new System.Drawing.Size(62, 17);
             this.checkBoxLegend.TabIndex = 2;
@@ -134,16 +137,16 @@
             this.checkBoxGrid.UseVisualStyleBackColor = true;
             this.checkBoxGrid.CheckedChanged += new System.EventHandler(this.checkBox_grid_CheckedChanged);
             // 
-            // UserControlGraph
+            // UserControlGraphOnPictureBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox4);
             this.DoubleBuffered = true;
-            this.Name = "UserControlGraph";
+            this.Name = "UserControlGraphOnPictureBox";
             this.Size = new System.Drawing.Size(715, 466);
             this.groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox_Display_options.ResumeLayout(false);
             this.groupBox_Display_options.PerformLayout();
             this.ResumeLayout(false);
@@ -153,10 +156,11 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.GroupBox groupBox_Display_options;
         private System.Windows.Forms.CheckBox checkBoxLegend;
         private System.Windows.Forms.CheckBox checkBoxAxes;
         private System.Windows.Forms.CheckBox checkBoxGrid;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox checkBoxCross;
     }
 }

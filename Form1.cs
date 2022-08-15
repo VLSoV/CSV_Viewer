@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Test_IBA_AG
@@ -18,7 +10,7 @@ namespace Test_IBA_AG
         string _fileName;
         List<Channel> _channels = new List<Channel>();
         bool _isIgnoreRedrawByListBoxEvent = false;
-
+        
         public Form1()
         {
             InitializeComponent();
@@ -52,7 +44,7 @@ namespace Test_IBA_AG
         /// </summary>
         /// <param name="line">String with values.</param>
         /// <returns>If defined it returns decimal delimiter. If undefined it returns '\0'</returns>
-        public char DefineDecimalDelimiter(string line)
+        public char DefineDecimalDelimiter(string line, char fieldSeparator)
         {
             if (radioButton_Dot_dec.Checked)
                 return '.';
@@ -62,7 +54,7 @@ namespace Test_IBA_AG
             {
                 if (line.Contains("."))
                     return '.';
-                if (line.Contains(","))
+                if (line.Contains(",") && fieldSeparator != ',')
                     return ',';
             }
             return '\0';
@@ -94,16 +86,16 @@ namespace Test_IBA_AG
         /// <param name="channels">List with channels.</param>
         public void WriteGraph(List<Channel> channels)
         {
-            Invoke((MethodInvoker)(() =>
-            {
+            //Invoke((MethodInvoker)(() =>
+            //{
                 for (int i = 0; i < channels.Count; i++)
                 {
                     if (channels[i].IsActive)
                     {
-                        userControlGraph1.Add(channels[i]);
+                        userControlGraphOnPictureBox1.Add(channels[i]);
                     }
                 }
-             }));
+             //}));
         }
 
         private void button_Open_Click(object sender, EventArgs e)
@@ -162,7 +154,7 @@ namespace Test_IBA_AG
             this.Text = "CSV Viewer";
             listBoxChannels.Items.Clear();
             listBoxStatistics.Items.Clear();
-            userControlGraph1.ClearSeries();
+            userControlGraphOnPictureBox1.ClearSeries();
             buttonClose.Enabled = false;
         }
 
@@ -174,7 +166,15 @@ namespace Test_IBA_AG
         private void button_Generate_Click(object sender, EventArgs e)
         {
             if (pictureBoxChannel.Visible || pictureBoxRow.Visible) // if at least one of textBoxes is incorrect
+            {
+                MessageBox.Show("Enter the correct parameters of the generating file!", "Incorrect parameters!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+            }
+            if (radioButton_comma.Checked && radioButton_comma_dec.Checked) // same decimal delimiter and field separators
+                if (MessageBox.Show("Are you sure you want to use commma as field separator and decimal delimiter at the same time?", "Same decimal delimiter and field separators!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                    == DialogResult.No)
+                    return;
+
             SetStatus("Generating CSV file…");
             CSVGenerator _generator = new CSVGenerator(this);
             _fileName = _generator.CreateFile();
@@ -190,7 +190,7 @@ namespace Test_IBA_AG
             }
             WriteStatictics();
 
-            if(!_isIgnoreRedrawByListBoxEvent) Invoke((MethodInvoker)(() => { userControlGraph1.ClearSeries(); }));
+            if(!_isIgnoreRedrawByListBoxEvent) Invoke((MethodInvoker)(() => { userControlGraphOnPictureBox1.ClearSeries(); }));
             WriteGraph(_channels);
         }
         /// <summary>
@@ -202,7 +202,7 @@ namespace Test_IBA_AG
             pictureBox.Image = new Bitmap(SystemIcons.Error.Size.Width, SystemIcons.Error.Size.Height);
             using (Graphics g = Graphics.FromImage(pictureBox.Image))
             {
-                g.DrawImage(SystemIcons.Error.ToBitmap(), new Rectangle(0, 0, 18, 18));
+                g.DrawIcon(SystemIcons.Error, new Rectangle(0, 0, 18, 18));
             }
             toolTip1.SetToolTip(pictureBox, errorString);
         }

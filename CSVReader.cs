@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Test_IBA_AG
@@ -65,7 +61,6 @@ namespace Test_IBA_AG
 
             _worker.RunWorkerAsync();
         }
-
         private void AddLineToData(string line)
         {
             string[] data = line.Split(_fieldSeparator);
@@ -102,52 +97,63 @@ namespace Test_IBA_AG
 
         private void _worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            using (StreamReader streamReader = new StreamReader(_fileName))
+            try
             {
-                // read names of channels 
-                string line = streamReader.ReadLine();
-                _fieldSeparator = _mainForm.DefineFieldSeparator(line);
-                string[] dataNames = line.Split(_fieldSeparator);
-                for (int i = 0; i < dataNames.Length; i++)
+                using (StreamReader streamReader = new StreamReader(_fileName))
                 {
-                    _channels.Add(new Channel(dataNames[i]));
-                    if (i < 5)
+                    // read names of channels 
+                    string line = streamReader.ReadLine();
+                    if (string.IsNullOrEmpty(line)) 
+                        throw new Exception("The line with channel names is empty!");
+                    _fieldSeparator = _mainForm.DefineFieldSeparator(line);
+                    string[] dataNames = line.Split(_fieldSeparator);
+                    for (int i = 0; i < dataNames.Length; i++)
                     {
-                        _channels[i].IsActive = true;
+                        _channels.Add(new Channel(dataNames[i]));
+                        if (i < 5)
+                        {
+                            _channels[i].IsActive = true;
+                        }
+                    }
+                    long lastPosition = streamReader.BaseStream.Position;
+                    // read data, while decimal delimiter is undefined
+                    char decimalDelimiter = '\0';
+                    while (decimalDelimiter == '\0' && (line = streamReader.ReadLine()) != null)
+                    {
+                        decimalDelimiter = _mainForm.DefineDecimalDelimiter(line, _fieldSeparator);
+                        _numberFormatInfo = new NumberFormatInfo() { NumberDecimalSeparator = decimalDelimiter.ToString(), CurrencyDecimalSeparator = decimalDelimiter.ToString() };
+                        ReadLine(line, ref lastPosition, streamReader.BaseStream, e);
+                    }
+                    // read other data
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        ReadLine(line, ref lastPosition, streamReader.BaseStream, e);
                     }
                 }
-                // read data, while decimal delimiter is undefined
-                char decimalDelimiter = '\0';
-                while (decimalDelimiter == '\0' && (line = streamReader.ReadLine()) != null)
-                {
-                    if (_worker.CancellationPending)
-                    { 
-                        e.Cancel = true;
-                        return;
-                    }
-                    decimalDelimiter = _mainForm.DefineDecimalDelimiter(line);
-                    _numberFormatInfo = new NumberFormatInfo() { NumberDecimalSeparator = decimalDelimiter.ToString() };
-                    AddLineToData(line);
-                    _worker.ReportProgress((int)(100 * streamReader.BaseStream.Position / streamReader.BaseStream.Length), e.Argument);
-                }
-                // read other data
-                long lastPosition = streamReader.BaseStream.Position;
-                while ((line = streamReader.ReadLine()) != null)
-                {
-                    if (_worker.CancellationPending)
-                    {
-                        e.Cancel = true;
-                        return;
-                    }
-                    AddLineToData(line);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Failed to open file!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void ReadLine(string line, ref long lastPosition, Stream stream, DoWorkEventArgs e)
+        {
+            if (_worker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+            AddLineToData(line);
 
-                    _worker.ReportProgress((int)(100 * streamReader.BaseStream.Position / streamReader.BaseStream.Length), e.Argument);
-                    if ((streamReader.BaseStream.Position - lastPosition) > streamReader.BaseStream.Length / 25) // redraw graph every 4%
-                    {
-                        _mainForm.WriteGraph(_channels);
-                        lastPosition = streamReader.BaseStream.Position;
-                    }
-                }
+            if ((stream.Position - lastPosition) > stream.Length / 100) // every one percent
+            {
+                int currentPercentage = (int)(100 * stream.Position / stream.Length);
+                _worker.ReportProgress(currentPercentage, e.Argument);
+
+                if(currentPercentage % 4 == 0) // redraw graph every 4%
+                    _mainForm.WriteGraph(_channels);
+
+                lastPosition = stream.Position;
             }
         }
     }

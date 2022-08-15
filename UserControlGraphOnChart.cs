@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -14,11 +10,11 @@ namespace Test_IBA_AG
     /// <summary>
     /// Contains chart component and 3 checkbox components to control grid, axis and legend.
     /// </summary>
-    public partial class UserControlGraph : UserControl
+    public partial class UserControlGraphOnChart : UserControl
     {
         Color[] colores = new Color[6] { Color.Blue, Color.Red, Color.Green, Color.DarkBlue, Color.DarkRed, Color.DarkGreen };
         public Color LegendBackColor = Color.FromArgb(128, 255, 255, 0);
-        public UserControlGraph()
+        public UserControlGraphOnChart()
         {
             InitializeComponent();
 
@@ -36,7 +32,11 @@ namespace Test_IBA_AG
             axisY.X = 0;
             axisY.IsInfinitive = true;
             chart1.Annotations.Add(axisY);
+
+            chart1.Series.SuspendUpdates();
+            chart1.AntiAliasing = AntiAliasingStyles.None;
         }
+
         /// <summary>
         /// Add new channel or updates existing channel on the chart.
         /// </summary>
@@ -52,13 +52,15 @@ namespace Test_IBA_AG
             }
             else
             {
-                indexStart = chart1.Series[channel.Name].Points.Count;
+                indexStart = (int)chart1.Series[channel.Name].Points.Last().XValue+1;
             }
 
             for (int i = indexStart; i < channel.Count; i++)
             {
                 if (!double.IsNaN(channel[i]))
+                {
                     chart1.Series[channel.Name].Points.AddXY(i, channel[i]);
+                }
             }
         }
         /// <summary>
@@ -109,6 +111,5 @@ namespace Test_IBA_AG
                 e.LegendItems[i].Cells[1].ForeColor = colores[i % 6];
             }
         }
-
     }
 }

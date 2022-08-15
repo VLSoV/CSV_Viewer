@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Test_IBA_AG
@@ -62,7 +59,7 @@ namespace Test_IBA_AG
             _fieldSeparator = _mainForm.DefineFieldSeparator("");
             if (_fieldSeparator == '\0') 
                 _fieldSeparator = '\t';
-            char decimalDelimiter = _mainForm.DefineDecimalDelimiter("");
+            char decimalDelimiter = _mainForm.DefineDecimalDelimiter("", '\0');
             if(decimalDelimiter == '\0') 
                 decimalDelimiter = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
             _numberFormatInfo = new NumberFormatInfo() { NumberDecimalSeparator = decimalDelimiter.ToString() };

@@ -81,6 +81,7 @@
             this.Controls.Add(this.percents);
             this.Controls.Add(this.description);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
             this.Name = "FormProgress";
             this.Text = "In progress...";
             this.ResumeLayout(false);

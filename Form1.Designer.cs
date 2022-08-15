@@ -31,6 +31,7 @@ namespace Test_IBA_AG
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox_Reader = new System.Windows.Forms.GroupBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
@@ -47,7 +48,6 @@ namespace Test_IBA_AG
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox_Details = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.userControlGraph1 = new Test_IBA_AG.UserControlGraph();
             this.groupBox_Statistics = new System.Windows.Forms.GroupBox();
             this.listBoxStatistics = new System.Windows.Forms.ListBox();
             this.groupBox_Common_settings = new System.Windows.Forms.GroupBox();
@@ -63,6 +63,7 @@ namespace Test_IBA_AG
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.userControlGraphOnPictureBox1 = new Test_IBA_AG.UserControlGraphOnPictureBox();
             this.groupBox_Reader.SuspendLayout();
             this.groupBox_Channels.SuspendLayout();
             this.groupBox_Generator.SuspendLayout();
@@ -218,7 +219,7 @@ namespace Test_IBA_AG
             this.checkBoxGenerate.Name = "checkBoxGenerate";
             this.checkBoxGenerate.Size = new System.Drawing.Size(129, 17);
             this.checkBoxGenerate.TabIndex = 1;
-            this.checkBoxGenerate.Text = "Add cccasional NaNs";
+            this.checkBoxGenerate.Text = "Add occasional NaNs";
             this.checkBoxGenerate.UseVisualStyleBackColor = true;
             // 
             // label1
@@ -254,7 +255,7 @@ namespace Test_IBA_AG
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.userControlGraph1);
+            this.splitContainer1.Panel1.Controls.Add(this.userControlGraphOnPictureBox1);
             // 
             // splitContainer1.Panel2
             // 
@@ -262,16 +263,6 @@ namespace Test_IBA_AG
             this.splitContainer1.Size = new System.Drawing.Size(868, 570);
             this.splitContainer1.SplitterDistance = 416;
             this.splitContainer1.TabIndex = 3;
-            // 
-            // userControlGraph1
-            // 
-            this.userControlGraph1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.userControlGraph1.Location = new System.Drawing.Point(0, 1);
-            this.userControlGraph1.Name = "userControlGraph1";
-            this.userControlGraph1.Size = new System.Drawing.Size(865, 416);
-            this.userControlGraph1.TabIndex = 2;
             // 
             // groupBox_Statistics
             // 
@@ -424,6 +415,16 @@ namespace Test_IBA_AG
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
             // 
+            // userControlGraphOnPictureBox1
+            // 
+            this.userControlGraphOnPictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.userControlGraphOnPictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.userControlGraphOnPictureBox1.Name = "userControlGraphOnPictureBox1";
+            this.userControlGraphOnPictureBox1.Size = new System.Drawing.Size(868, 413);
+            this.userControlGraphOnPictureBox1.TabIndex = 0;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -434,6 +435,7 @@ namespace Test_IBA_AG
             this.Controls.Add(this.groupBox_Details);
             this.Controls.Add(this.groupBox_Generator);
             this.Controls.Add(this.groupBox_Reader);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(650, 480);
             this.Name = "Form1";
             this.Text = "CSV Viewer";
@@ -489,11 +491,11 @@ namespace Test_IBA_AG
         private RadioButton radioButton_tab;
         private ListBox listBoxChannels;
         private ListBox listBoxStatistics;
-        private UserControlGraph userControlGraph1;
         private SplitContainer splitContainer1;
         private PictureBox pictureBoxChannel;
         private PictureBox pictureBoxRow;
         private ToolTip toolTip1;
+        private UserControlGraphOnPictureBox userControlGraphOnPictureBox1;
     }
 }
 
